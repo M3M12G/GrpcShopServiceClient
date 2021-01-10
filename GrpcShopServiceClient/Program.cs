@@ -38,6 +38,15 @@ namespace GrpcShopServiceClient
                 }
             }
 
+            //User for updating the category id of existing product
+
+            Console.WriteLine("Please, enter the id of the product and new category id");
+            var pID = Convert.ToInt32(Console.ReadLine());
+            var newCatId = Convert.ToInt32(Console.ReadLine());
+
+            var updProd = await clientProdS.UpdateProductCategoryAsync(new ProductUpdate { Id = pID, CategoryId = newCatId });
+            Console.WriteLine($"Updated category product details:{updProd.Id}_{ updProd.Name}_{updProd.Description}_{updProd.Price}_\n--->{updProd.Category.Id}__{updProd.Category.Name}");
+
             //CLIENT For CategoryService
 
             /*var clientCategoryServ = new CategoryCRUD.CategoryCRUDClient(channel);
