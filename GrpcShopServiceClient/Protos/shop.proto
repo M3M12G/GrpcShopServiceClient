@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcShopServiceClient";
+
+package shop;
+
+service CategoryCRUD{
+	rpc AddCategory (CategoryCreate) returns (CategoryInfo);
+	rpc GetCategoryById (CategoryLookup) returns (CategoryInfo);	
+	rpc GetAllCategories (AllLookup) returns (stream CategoryInfo);
+	rpc DeleteCategory (CategoryLookup) returns (AllLookup);
+	rpc UpdateCategory (CategoryInfo) returns (CategoryInfo);
+}
+
+message AllLookup{
+
+}
+
+message CategoryLookup {
+	int32 id = 1;
+}
+
+message CategoryCreate {
+	string name = 2;
+}
+
+message CategoryInfo {
+	int32 id = 1;
+	string name = 2;
+	repeated ProductInfo Product = 3;
+}
+
+service ProductCRUD{
+	rpc AddProduct (ProductCreate) returns (ProductInfo);
+	rpc GetProductById (ProductLookup) returns (ProductInfo);
+	rpc GetProductsByCategoryId (CategoryLookup) returns (stream ProductInfo);
+	rpc UpdateProductCategory(ProductUpdate) returns (ProductInfo);
+}
+
+message ProductLookup {
+	int32 id = 1;
+}
+
+message ProductUpdate{
+	int32 id=1;
+	int32 categoryId=2;
+}
+
+message ProductCreate {
+	string name = 1;
+	string description = 2;
+	double price = 3;
+	int32 categoryId = 4;
+}
+
+message ProductInfo {
+	int32 id = 1;
+	string name = 2;
+	string description = 3;
+	double price = 4;
+	CategoryInfo category = 5;
+}
